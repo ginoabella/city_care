@@ -1,18 +1,28 @@
+import 'dart:io';
+import 'package:path/path.dart';
+
 import 'package:city_care/models/incident.dart';
+import 'package:city_care/utils/constants.dart';
 import 'package:dio/dio.dart';
 
 class Webservice {
   Future<void> saveIncident(Incident incident) async {
-    const url = 'https://vast-savannah-75068.herokuapp.com/incidentsNoImage';
+    const url = '${kUrl}incidents';
+
+    final File file = File(incident.imageURL);
+    final filename = basename(file.path.replaceAll(' ', ''));
+
+    final FormData formData = FormData.fromMap({
+      'title': incident.title,
+      'description': incident.description,
+      'image':
+          await MultipartFile.fromFile(incident.imageURL, filename: filename)
+    });
 
     try {
       await Dio().post(
         url,
-        data: {
-          'title': incident.title,
-          'description': incident.description,
-        },
-        options: Options(contentType: 'application/x-www-form-urlencoded'),
+        data: formData,
       );
     } catch (e) {
       throw Exception('Faild Posting');
@@ -20,7 +30,7 @@ class Webservice {
   }
 
   Future<List<Incident>> getAllIncident() async {
-    const url = 'https://vast-savannah-75068.herokuapp.com/incidents';
+    const url = '${kUrl}incidents';
 
     try {
       final response = await Dio().get(url);

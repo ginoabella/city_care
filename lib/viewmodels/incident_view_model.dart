@@ -8,4 +8,6 @@ class IncidentViewModel {
   String get title => incident.title;
 
   String get description => incident.description;
+
+  String get imageURL => incident.imageURL;
 }

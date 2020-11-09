@@ -14,6 +14,8 @@ class IncidentList extends StatelessWidget {
         final incident = incidents[index];
 
         return ListTile(
+          leading: Image.network(
+              'https://vast-savannah-75068.herokuapp.com${incident.imageURL}'),
           title: Text(incident.title),
         );
       },

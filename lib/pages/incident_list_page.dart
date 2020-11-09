@@ -42,7 +42,7 @@ class IncidentListPage extends StatelessWidget {
       case Status.loading:
         return const Center(child: CircularProgressIndicator());
       case Status.empty:
-        return const Text("No incident found");
+        return const Center(child: Text("No incident found"));
       case Status.successs:
         return IncidentList(incidents: incidentListViewVM.incidents);
       case Status.error:
